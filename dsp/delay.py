@@ -44,6 +44,9 @@ class Delay:
 
             self._write_idx = (self._write_idx + 1) % self._max_delay
 
+    def update(self):
+        pass
+
     def reset(self):
         self._buffer.fill(0)
         self._write_idx = 0
@@ -52,9 +55,9 @@ class Delay:
     @staticmethod
     def params():
         return {
-            'time_ms': {'min': 10, 'max': 2000, 'default': 300, 'label': 'Time', 'unit': 'ms'},
-            'feedback': {'min': 0.0, 'max': 0.95, 'default': 0.3, 'label': 'Feedback'},
-            'lp_cutoff': {'min': 200, 'max': 20000, 'default': 8000, 'label': 'LP Cut', 'unit': 'Hz'},
-            'mix': {'min': 0.0, 'max': 1.0, 'default': 0.3, 'label': 'Mix'},
-            'ping_pong': {'options': [True, False], 'default': False, 'label': 'PingPong'},
+            'time_ms': {'min': 10, 'max': 2000, 'default': 300, 'label': 'Time', 'unit': 'ms', 'show_readout': True},
+            'feedback': {'min': 0.0, 'max': 0.95, 'default': 0.3, 'label': 'Feedback', 'show_readout': True, 'range_dots': True},
+            'lp_cutoff': {'min': 200, 'max': 20000, 'default': 8000, 'label': 'LP Cut', 'unit': 'Hz', 'show_readout': True},
+            'mix': {'min': 0.0, 'max': 1.0, 'default': 0.3, 'label': 'Mix', 'show_readout': True},
+            'ping_pong': {'options': [True, False], 'default': False, 'label': 'PingPong', 'show_readout': False},
         }

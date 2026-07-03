@@ -82,6 +82,9 @@ class Reverb:
 
             buffer[i] = x * (1 - mix) + (left + right) * mix * self._scale
 
+    def update(self):
+        pass
+
     def reset(self):
         for buf in self._comb_buffers:
             buf.fill(0)
@@ -96,9 +99,9 @@ class Reverb:
     @staticmethod
     def params():
         return {
-            'size': {'min': 0.0, 'max': 1.0, 'default': 0.5, 'label': 'Size'},
-            'damping': {'min': 0.0, 'max': 1.0, 'default': 0.5, 'label': 'Damping'},
-            'width': {'min': 0.0, 'max': 1.0, 'default': 0.5, 'label': 'Width'},
-            'predelay_ms': {'min': 0, 'max': 200, 'default': 20, 'label': 'PreDelay', 'unit': 'ms'},
-            'dry_wet': {'min': 0.0, 'max': 1.0, 'default': 0.3, 'label': 'Mix'},
+            'size': {'min': 0.0, 'max': 1.0, 'default': 0.5, 'label': 'Size', 'show_readout': True},
+            'damping': {'min': 0.0, 'max': 1.0, 'default': 0.5, 'label': 'Damping', 'show_readout': True},
+            'width': {'min': 0.0, 'max': 1.0, 'default': 0.5, 'label': 'Width', 'show_readout': True},
+            'predelay_ms': {'min': 0, 'max': 200, 'default': 20, 'label': 'PreDelay', 'unit': 'ms', 'show_readout': True},
+            'dry_wet': {'min': 0.0, 'max': 1.0, 'default': 0.3, 'label': 'Mix', 'show_readout': True},
         }

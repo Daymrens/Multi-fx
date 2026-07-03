@@ -6,41 +6,59 @@ class AudioEngine:
     def __init__(self, chain=None):
         self.chain = chain
         self.sr = 44100
-        self.blocksize = 128
+        self._blocksize = 128
         self.input_device = None
         self.output_device = None
-        self.routing = 'direct'  # direct, loopback, split
+        self.routing = 'direct'
+        self.direct_monitor = False
         self._stream = None
         self._running = False
         self._peak_in = 0.0
         self._peak_out = 0.0
         self._callback_count = 0
+        self._input_latency = 0.0
+        self._output_latency = 0.0
+
+    @property
+    def blocksize(self):
+        return self._blocksize
+
+    @blocksize.setter
+    def blocksize(self, value):
+        if value == self._blocksize:
+            return
+        self._blocksize = value
+        if self._running:
+            self.restart()
+
+    def restart(self):
+        was_running = self._running
+        if was_running:
+            self.stop()
+        self._running = False
+        if was_running:
+            try:
+                self.start()
+            except RuntimeError:
+                pass
 
     def get_devices(self):
         devices = sd.query_devices()
+        hostapis = sd.query_hostapis()
         result = []
         for i, dev in enumerate(devices):
+            ha = hostapis[dev['hostapi']]
             result.append({
                 'id': i,
                 'name': dev['name'],
+                'hostapi': ha['name'],
                 'inputs': dev['max_input_channels'],
                 'outputs': dev['max_output_channels'],
                 'sr': dev['default_samplerate'],
+                'default_low_in': dev.get('default_low_input_latency', 0),
+                'default_low_out': dev.get('default_low_output_latency', 0),
             })
         return result
-
-    def find_asio_devices(self):
-        devices = sd.query_devices()
-        asio_devices = []
-        for i, dev in enumerate(devices):
-            if 'ASIO' in dev['name'].upper() or 'FL Studio ASIO' in dev['name']:
-                asio_devices.append({
-                    'id': i,
-                    'name': dev['name'],
-                    'inputs': dev['max_input_channels'],
-                    'outputs': dev['max_output_channels'],
-                })
-        return asio_devices
 
     def start(self):
         if self._running:
@@ -49,12 +67,14 @@ class AudioEngine:
             self._stream = sd.Stream(
                 device=(self.input_device, self.output_device),
                 samplerate=self.sr,
-                blocksize=self.blocksize,
+                blocksize=self._blocksize,
                 dtype='float32',
                 channels=max(1, 2),
                 callback=self._callback,
                 latency='low',
             )
+            self._input_latency = self._stream.latency[0] * 1000 if self._stream.latency else 0
+            self._output_latency = self._stream.latency[1] * 1000 if self._stream.latency else 0
             self._stream.start()
             self._running = True
         except Exception as e:
@@ -62,8 +82,11 @@ class AudioEngine:
 
     def stop(self):
         if self._stream:
-            self._stream.stop()
-            self._stream.close()
+            try:
+                self._stream.stop()
+                self._stream.close()
+            except Exception:
+                pass
             self._stream = None
         self._running = False
 
@@ -77,7 +100,9 @@ class AudioEngine:
 
         self._peak_in = float(np.max(np.abs(mono)))
 
-        if self.chain:
+        if self.direct_monitor:
+            pass
+        elif self.chain:
             self.chain.process(mono)
 
         self._peak_out = float(np.max(np.abs(mono)))
@@ -101,7 +126,9 @@ class AudioEngine:
 
     @property
     def latency_ms(self):
-        return self.blocksize / self.sr * 1000
+        rt = self._input_latency + self._output_latency
+        return rt if rt > 0 else self._blocksize / self.sr * 1000
 
-    def update(self):
-        pass
+    @property
+    def buffer_ms(self):
+        return self._blocksize / self.sr * 1000

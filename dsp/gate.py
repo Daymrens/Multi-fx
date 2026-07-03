@@ -57,8 +57,8 @@ class Gate:
     @staticmethod
     def params():
         return {
-            'threshold': {'min': -80, 'max': 0, 'default': -40, 'label': 'Thresh', 'unit': 'dB'},
-            'attack_ms': {'min': 0.1, 'max': 50, 'default': 1.0, 'label': 'Attack', 'unit': 'ms'},
-            'hold_ms': {'min': 0, 'max': 200, 'default': 20, 'label': 'Hold', 'unit': 'ms'},
-            'release_ms': {'min': 5, 'max': 500, 'default': 50, 'label': 'Release', 'unit': 'ms'},
+            'threshold': {'min': -80, 'max': 0, 'default': -40, 'label': 'Thresh', 'unit': 'dB', 'show_readout': True},
+            'attack_ms': {'min': 0.1, 'max': 50, 'default': 1.0, 'label': 'Attack', 'unit': 'ms', 'show_readout': True},
+            'hold_ms': {'min': 0, 'max': 200, 'default': 20, 'label': 'Hold', 'unit': 'ms', 'show_readout': True},
+            'release_ms': {'min': 5, 'max': 500, 'default': 50, 'label': 'Release', 'unit': 'ms', 'show_readout': True},
         }

@@ -117,8 +117,8 @@ class FilterEQ:
     @staticmethod
     def params():
         return {
-            'type': {'options': ['LP', 'HP', 'BP', 'Notch', 'LowShelf', 'HighShelf', 'Peak'], 'default': 'LP', 'label': 'Type'},
-            'freq': {'min': 20, 'max': 20000, 'default': 1000, 'label': 'Freq', 'unit': 'Hz'},
-            'q': {'min': 0.1, 'max': 20, 'default': 0.707, 'label': 'Q'},
-            'gain_db': {'min': -24, 'max': 24, 'default': 0, 'label': 'Gain', 'unit': 'dB'},
+            'type': {'options': ['LP', 'HP', 'BP', 'Notch', 'LowShelf', 'HighShelf', 'Peak'], 'default': 'LP', 'label': 'Type', 'show_readout': False},
+            'freq': {'min': 20, 'max': 20000, 'default': 1000, 'label': 'Freq', 'unit': 'Hz', 'show_readout': True},
+            'q': {'min': 0.1, 'max': 20, 'default': 0.707, 'label': 'Q', 'show_readout': True, 'range_dots': True},
+            'gain_db': {'min': -24, 'max': 24, 'default': 0, 'label': 'Gain', 'unit': 'dB', 'show_readout': True},
         }

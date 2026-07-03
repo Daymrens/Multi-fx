@@ -47,16 +47,19 @@ class Compressor:
             gain = 10 ** (gain_db / 20) * makeup
             buffer[i] = buffer[i] * gain
 
+    def update(self):
+        pass
+
     def reset(self):
         self._envelope = 0.0
 
     @staticmethod
     def params():
         return {
-            'threshold': {'min': -60, 'max': 0, 'default': -20, 'label': 'Threshold', 'unit': 'dB'},
-            'ratio': {'min': 1, 'max': 20, 'default': 4, 'label': 'Ratio'},
-            'knee_db': {'min': 0, 'max': 12, 'default': 6, 'label': 'Knee', 'unit': 'dB'},
-            'attack_ms': {'min': 0.1, 'max': 100, 'default': 5, 'label': 'Attack', 'unit': 'ms'},
-            'release_ms': {'min': 5, 'max': 500, 'default': 50, 'label': 'Release', 'unit': 'ms'},
-            'makeup_db': {'min': 0, 'max': 24, 'default': 3, 'label': 'Makeup', 'unit': 'dB'},
+            'threshold': {'min': -60, 'max': 0, 'default': -20, 'label': 'Threshold', 'unit': 'dB', 'show_readout': True},
+            'ratio': {'min': 1, 'max': 20, 'default': 4, 'label': 'Ratio', 'show_readout': True},
+            'knee_db': {'min': 0, 'max': 12, 'default': 6, 'label': 'Knee', 'unit': 'dB', 'show_readout': True, 'range_dots': True},
+            'attack_ms': {'min': 0.1, 'max': 100, 'default': 5, 'label': 'Attack', 'unit': 'ms', 'show_readout': True},
+            'release_ms': {'min': 5, 'max': 500, 'default': 50, 'label': 'Release', 'unit': 'ms', 'show_readout': True},
+            'makeup_db': {'min': 0, 'max': 24, 'default': 3, 'label': 'Makeup', 'unit': 'dB', 'show_readout': True},
         }

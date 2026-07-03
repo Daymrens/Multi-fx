@@ -65,6 +65,9 @@ class Modulation:
 
         buffer[:] = out
 
+    def update(self):
+        pass
+
     def reset(self):
         self._phase = 0.0
         self._write_idx = 0
@@ -74,9 +77,9 @@ class Modulation:
     @staticmethod
     def params():
         return {
-            'mode': {'options': ['chorus', 'flanger', 'phaser'], 'default': 'chorus', 'label': 'Mode'},
-            'rate_hz': {'min': 0.05, 'max': 10, 'default': 0.5, 'label': 'Rate', 'unit': 'Hz'},
-            'depth': {'min': 0.0, 'max': 1.0, 'default': 0.5, 'label': 'Depth'},
-            'feedback': {'min': 0.0, 'max': 0.95, 'default': 0.0, 'label': 'Feedback'},
-            'mix': {'min': 0.0, 'max': 1.0, 'default': 0.5, 'label': 'Mix'},
+            'mode': {'options': ['chorus', 'flanger', 'phaser'], 'default': 'chorus', 'label': 'Mode', 'show_readout': False},
+            'rate_hz': {'min': 0.05, 'max': 10, 'default': 0.5, 'label': 'Rate', 'unit': 'Hz', 'show_readout': True},
+            'depth': {'min': 0.0, 'max': 1.0, 'default': 0.5, 'label': 'Depth', 'show_readout': True},
+            'feedback': {'min': 0.0, 'max': 0.95, 'default': 0.0, 'label': 'Feedback', 'show_readout': True, 'range_dots': True},
+            'mix': {'min': 0.0, 'max': 1.0, 'default': 0.5, 'label': 'Mix', 'show_readout': True},
         }

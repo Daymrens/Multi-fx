@@ -43,6 +43,9 @@ class Limiter:
 
             buffer[i] = delayed * self._gain
 
+    def update(self):
+        pass
+
     def reset(self):
         self._delay_buf.fill(0)
         self._delay_idx = 0
@@ -52,7 +55,7 @@ class Limiter:
     @staticmethod
     def params():
         return {
-            'threshold': {'min': -24, 'max': 0, 'default': -0.5, 'label': 'Ceiling', 'unit': 'dB'},
-            'release_ms': {'min': 5, 'max': 500, 'default': 50, 'label': 'Release', 'unit': 'ms'},
-            'lookahead_ms': {'min': 0, 'max': 10, 'default': 2, 'label': 'Lookahead', 'unit': 'ms'},
+            'threshold': {'min': -24, 'max': 0, 'default': -0.5, 'label': 'Ceiling', 'unit': 'dB', 'show_readout': True},
+            'release_ms': {'min': 5, 'max': 500, 'default': 50, 'label': 'Release', 'unit': 'ms', 'show_readout': True},
+            'lookahead_ms': {'min': 0, 'max': 10, 'default': 2, 'label': 'Lookahead', 'unit': 'ms', 'show_readout': True},
         }

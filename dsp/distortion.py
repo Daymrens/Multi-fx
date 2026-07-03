@@ -31,14 +31,17 @@ class Distortion:
         wet = wet * output_gain
         buffer[:] = dry * (1 - self.mix) + wet * self.mix
 
+    def update(self):
+        pass
+
     def reset(self):
         pass
 
     @staticmethod
     def params():
         return {
-            'type': {'options': ['soft', 'hard', 'tube', 'fuzz'], 'default': 'soft', 'label': 'Type'},
-            'drive': {'min': 0.0, 'max': 10.0, 'default': 1.0, 'label': 'Drive'},
-            'mix': {'min': 0.0, 'max': 1.0, 'default': 1.0, 'label': 'Mix'},
-            'output_db': {'min': -24, 'max': 24, 'default': 0, 'label': 'Output', 'unit': 'dB'},
+            'type': {'options': ['soft', 'hard', 'tube', 'fuzz'], 'default': 'soft', 'label': 'Type', 'show_readout': False},
+            'drive': {'min': 0.0, 'max': 10.0, 'default': 1.0, 'label': 'Drive', 'show_readout': True},
+            'mix': {'min': 0.0, 'max': 1.0, 'default': 1.0, 'label': 'Mix', 'show_readout': True},
+            'output_db': {'min': -24, 'max': 24, 'default': 0, 'label': 'Output', 'unit': 'dB', 'show_readout': True},
         }
